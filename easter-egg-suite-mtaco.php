@@ -1,12 +1,12 @@
 <?php
 /*
-Plugin Name: Easter Egg Suite
+Plugin Name: MonkeyTaco Easter Eggs
 Plugin URI: http://monkeyta.co
 Description: A series of easter eggs that trigger small actions when users enter specific keystroke combinations
-Version:  0.1
-Author: Monkey Taco
+Version:  0.1.1
+Author: MonkeyTaco
 Author URI: http://monkeyta.co
-License: GPL2
+License: GPLv2 or later
 
 Copyright 2013  Andrew Adcock  (email : andrew@monkeyta.co)
 
@@ -23,7 +23,7 @@ Copyright 2013  Andrew Adcock  (email : andrew@monkeyta.co)
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-
+if ( ! function_exists('add_eggs_mtaco')) {
 function add_eggs_mtaco() {
   $pluginUrl = WP_PLUGIN_URL.'/'.dirname(plugin_basename(__FILE__));
 	
@@ -33,6 +33,7 @@ function add_eggs_mtaco() {
 	wp_register_script('mk-blood-mtaco', $pluginUrl.'/js/mortal-kombat-blood.js', array('jquery'));
     wp_enqueue_script('mk-blood-mtaco');
 }
+} //exists check
 add_action('admin_init', add_eggs_mtaco());
 
 ?>
