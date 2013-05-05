@@ -1,4 +1,6 @@
-wordpress-adopt-a-codex-badge
+MonkeyTaco Easter Eggs
+======================
+
 Demo: http://andrewadcock.com/wordpress
 
 Displays easter egg style content when codes are entered.
