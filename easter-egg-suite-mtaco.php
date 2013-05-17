@@ -71,12 +71,12 @@ add_action('admin_menu', 'monkeytaco_admin_add_page_fn');
 function monkeytaco_admin_init_fn(){
 	register_setting('plugin_options', 'plugin_options');
 	add_settings_section('monkeytaco_main_section', 'Choose your easter egg', 'monkeytaco_section_text_fn', __FILE__);
-	add_settings_field('monkeytaco_drop_down1', 'Select Color', 'monkeytaco_setting_dropdown_fn', __FILE__, 'monkeytaco_main_section');
+	add_settings_field('monkeytaco_drop_down1', 'Which would you like?', 'monkeytaco_setting_dropdown_fn', __FILE__, 'monkeytaco_main_section');
 }
 
 // Add sub page to the Settings Menu
 function monkeytaco_admin_add_page_fn() {
-	add_options_page('Options Example Page', 'Easter Eggs', 'administrator', __FILE__, 'monkeytaco_options_page_fn');
+	add_options_page('Easter Eggs Options Page', 'Easter Eggs', 'administrator', __FILE__, 'monkeytaco_options_page_fn');
 }
 
 // ************************************************************************************************************
