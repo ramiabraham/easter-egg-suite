@@ -34,7 +34,7 @@ function add_eggs_mtaco() {
 		'konami-mtaco',
 		plugins_url( '/js/konami.js' , __FILE__ ),
 		array( 'jquery' )
-	);
+	); //wp_localize_script to do
 }
 
 add_action( 'wp_enqueue_scripts', 'mtaco_get_the_konami_code_js' );
@@ -46,7 +46,7 @@ add_action( 'wp_enqueue_scripts', 'mtaco_get_the_konami_code_js' );
 		'mk-blood-mtaco',
 		plugins_url( '/js/mortal-kombat-blood.js' , __FILE__ ),
 		array( 'jquery' )
-	);
+	); //wp_localize_script to do
 }
 
 add_action( 'wp_enqueue_scripts', 'mtaco_get_the_mk_code_js' );
@@ -91,7 +91,7 @@ function  monkeytaco_section_text_fn() {
 // the dropdown select
 function  monkeytaco_setting_dropdown_fn() {
 	$options = get_option('plugin_options');
-	$items = array("Mortal Kombat blood code", "the Konami Code");
+	$items = array("mk" => "Mortal Kombat blood code", "ko" => "the Konami Code");
 	echo "<select id='monkeytaco_drop_down1' name='plugin_options[dropdown1]'>";
 	foreach($items as $item) {
 		$selected = ($options['dropdown1']==$item) ? 'selected="selected"' : '';
