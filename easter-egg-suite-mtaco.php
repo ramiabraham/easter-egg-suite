@@ -23,17 +23,99 @@ Copyright 2013  Andrew Adcock  (email : andrew@monkeyta.co)
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-if ( ! function_exists('add_eggs_mtaco')) {
+if  ( ! function_exists('add_eggs_mtaco')) {
 function add_eggs_mtaco() {
   $pluginUrl = WP_PLUGIN_URL.'/'.dirname(plugin_basename(__FILE__));
 	
-	wp_register_script('konami-mtaco', $pluginUrl.'/js/konami.js', array('jquery'));
-	wp_enqueue_script('konami-mtaco');
+	// konami code
 	
-	wp_register_script('mk-blood-mtaco', $pluginUrl.'/js/mortal-kombat-blood.js', array('jquery'));
-    wp_enqueue_script('mk-blood-mtaco');
+	function mtaco_get_the_konami_code_js() {
+	wp_enqueue_script(
+		'konami-mtaco',
+		plugins_url( '/js/konami.js' , __FILE__ ),
+		array( 'jquery' )
+	);
 }
-} //exists check
-add_action('admin_init', add_eggs_mtaco());
 
+add_action( 'wp_enqueue_scripts', 'mtaco_get_the_konami_code_js' );
+
+	// blood code
+	
+	function mtaco_get_the_mk_code_js() {
+	wp_enqueue_script(
+		'mk-blood-mtaco',
+		plugins_url( '/js/mortal-kombat-blood.js' , __FILE__ ),
+		array( 'jquery' )
+	);
+}
+
+add_action( 'wp_enqueue_scripts', 'mtaco_get_the_mk_code_js' );
+
+
+} // add_eggs_mtaco
+} // exists check
+if (! is_admin() ) {add_action('init', add_eggs_mtaco());} // don't load in wp-admin
+
+
+/*end front-end - all the rest is js */
+/* begin plugin settings page. */
+
+
+
+// easter egg admin settings page actions
+register_activation_hook(__FILE__, 'add_defaults_fn');
+add_action('admin_init', 'monkeytaco_admin_init_fn' );
+add_action('admin_menu', 'monkeytaco_admin_add_page_fn');
+
+// Register our settings. Add the settings section, and settings fields
+function monkeytaco_admin_init_fn(){
+	register_setting('plugin_options', 'plugin_options');
+	add_settings_section('monkeytaco_main_section', 'Choose your easter egg', 'monkeytaco_section_text_fn', __FILE__);
+	add_settings_field('monkeytaco_drop_down1', 'Select Color', 'monkeytaco_setting_dropdown_fn', __FILE__, 'monkeytaco_main_section');
+}
+
+// Add sub page to the Settings Menu
+function monkeytaco_admin_add_page_fn() {
+	add_options_page('Options Example Page', 'Easter Eggs', 'administrator', __FILE__, 'monkeytaco_options_page_fn');
+}
+
+// ************************************************************************************************************
+
+// Callback functions
+
+// Section HTML, displayed before easter egg selection
+function  monkeytaco_section_text_fn() {
+	echo '<p>You can see a demo here (link) or take a look at the screenshots above.</p>';
+}
+
+// the dropdown select
+function  monkeytaco_setting_dropdown_fn() {
+	$options = get_option('plugin_options');
+	$items = array("Mortal Kombat blood code", "the Konami Code");
+	echo "<select id='monkeytaco_drop_down1' name='plugin_options[dropdown1]'>";
+	foreach($items as $item) {
+		$selected = ($options['dropdown1']==$item) ? 'selected="selected"' : '';
+		echo "<option value='$item' $selected>$item</option>";
+	}
+	echo "</select>";
+}
+
+
+
+// Display the admin options page
+function monkeytaco_options_page_fn() {
 ?>
+	<div class="wrap">
+		<div class="icon32" id="icon-options-general"><br></div>
+		<h2>Monkeytaco Easter Eggs</h2>
+		...some screenshots here of the animations
+		<form action="options.php" method="post">
+		<?php settings_fields('plugin_options'); ?>
+		<?php do_settings_sections(__FILE__); ?>
+		<p class="submit">
+			<input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes'); ?>" />
+		</p>
+		</form>
+	</div>
+<?php
+}
